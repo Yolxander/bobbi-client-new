@@ -2,6 +2,10 @@ import Image from "next/image"
 import { Search, MoreVertical, Plus, AtSign, Mic, Send, Home, ListTodo, FileText, MessageSquare, Receipt } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
+import { Orbitron } from "next/font/google"
+
+const orbitron = Orbitron({ subsets: ["latin"] })
 
 interface NavItemProps {
   label: string
@@ -46,9 +50,7 @@ export default function LegalBotUI() {
                   />
                   <path d="M14 17H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" fill="currentColor" />
                 </svg>
-                <span className="font-inter">
-                  Project<span className="font-bold">Hub</span>
-                </span>
+                <span className={orbitron.className}>Bobbi</span>
               </span>
             </div>
           </div>
@@ -178,9 +180,48 @@ export default function LegalBotUI() {
           </div>
         </div>
 
+        {/* Option Pills */}
+        <div className="flex flex-wrap gap-2 px-4 pb-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full text-sm font-medium shadow-md"
+          >
+            Check Project Status
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full text-sm font-medium shadow-md"
+          >
+            Review Deliverables
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full text-sm font-medium shadow-md"
+          >
+            Leave Feedback
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full text-sm font-medium shadow-md"
+          >
+            Ask a Question
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full text-sm font-medium shadow-md"
+          >
+            End-of-Project Feedback
+          </Button>
+        </div>
+
         {/* Chat Input */}
-        <div className="border-t border-gray-100 bg-white p-4 shadow-lg">
-          <div className="flex items-center rounded-full border border-gray-200 bg-white px-4 py-2 shadow-sm transition-shadow focus-within:shadow-md">
+        <div className=" bg-white p-4 ">
+          <div className="flex items-center rounded-full border border-gray-200 bg-white px-4 py-2 shadow-lg transition-shadow focus-within:shadow-md">
             <input 
               type="text" 
               placeholder="Ask LegalBot anything ..." 
