@@ -1,6 +1,15 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
-import { Home, ListTodo, FileText, MessageSquare, Receipt, FileSpreadsheet } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { Home, ListTodo, FileText, MessageSquare, Receipt, FileSpreadsheet, User, LogOut } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface NavItemProps {
   label: string
@@ -34,6 +43,8 @@ function NavItem({ label, description, icon, href, active = false }: NavItemProp
 }
 
 export function Navigation({ activePath }: { activePath: string }) {
+  const router = useRouter()
+
   return (
     <div className="flex items-center justify-between border-b border-gray-100 bg-white px-6 py-3 shadow-sm">
       <div className="flex items-center gap-6">
@@ -81,15 +92,29 @@ export function Navigation({ activePath }: { activePath: string }) {
         />
       </div>
       <div className="ml-6">
-        <div className="h-10 w-10 overflow-hidden rounded-full border border-gray-200 shadow-sm transition-transform hover:scale-105">
-          <Image
-            src="/placeholder.svg?height=40&width=40"
-            alt="Profile"
-            width={40}
-            height={40}
-            className="h-full w-full object-cover"
-          />
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="h-10 w-10 cursor-pointer overflow-hidden rounded-full border border-gray-200 shadow-sm transition-transform hover:scale-105">
+              <Image
+                src="/placeholder.svg?height=40&width=40"
+                alt="Profile"
+                width={40}
+                height={40}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => router.push("/profile")}>
+              <User className="mr-2 h-4 w-4" />
+              <span>Go to Account</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Log Out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   )
