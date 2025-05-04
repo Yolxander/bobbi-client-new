@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Orbitron } from "next/font/google"
+import { Navigation } from "@/components/navigation"
 
 const orbitron = Orbitron({ subsets: ["latin"] })
 
@@ -101,52 +102,7 @@ export default function LegalBotUI() {
       {/* Main Content */}
       <div className="flex flex-1 flex-col">
         {/* Top Navigation */}
-        <div className="flex items-center justify-between border-b border-gray-100 bg-white px-6 py-3 shadow-sm">
-          <div className="flex items-center gap-6">
-            <NavItem 
-              label="Dashboard Home" 
-              description="See overall progress and key milestones"
-              icon={<Home className="h-4 w-4" />}
-              href="/"
-              active 
-            />
-            <NavItem 
-              label="Tasks View" 
-              description="Track what's happening now"
-              icon={<ListTodo className="h-4 w-4" />}
-              href="/document"
-            />
-            <NavItem 
-              label="Files Section" 
-              description="Review, comment, or approve items"
-              icon={<FileText className="h-4 w-4" />}
-              href="/files"
-            />
-            <NavItem 
-              label="Messages" 
-              description="Ask questions or reply to updates"
-              icon={<MessageSquare className="h-4 w-4" />}
-              href="/messages"
-            />
-            <NavItem 
-              label="Invoices" 
-              description="View/download/pay"
-              icon={<Receipt className="h-4 w-4" />}
-              href="/invoices"
-            />
-          </div>
-          <div className="ml-6">
-            <div className="h-10 w-10 overflow-hidden rounded-full border border-gray-200 shadow-sm transition-transform hover:scale-105">
-              <Image
-                src="/placeholder.svg?height=40&width=40"
-                alt="Profile"
-                width={40}
-                height={40}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
+        <Navigation activePath="/" />
 
         {/* Main Content Area */}
         <div className="flex-1 overflow-y-auto bg-white p-6">
