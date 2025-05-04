@@ -90,7 +90,10 @@ export default function FileView() {
 
         {/* Main Content Area */}
         <div className="flex-1 overflow-y-auto bg-white p-6">
-          <h1 className="mb-8 text-center text-3xl font-bold text-gray-900">Files</h1>
+          <h1 className="mb-8 flex items-center justify-center gap-2 text-center text-3xl font-bold text-gray-900">
+            <FileText className="h-8 w-8" />
+            Files
+          </h1>
           
           {/* File Management Toolbar */}
           <div className="mb-6 flex flex-wrap items-center gap-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
@@ -246,22 +249,25 @@ export default function FileView() {
 
 function FileItem({ name, type, size, lastModified, status }: FileItemProps) {
   const statusColors = {
-    reviewed: "bg-green-100 text-green-800",
-    pending: "bg-yellow-100 text-yellow-800",
-    new: "bg-blue-100 text-blue-800"
+    reviewed: "bg-green-50 text-green-800",
+    pending: "bg-yellow-50 text-yellow-800",
+    new: "bg-blue-50 text-blue-800"
   }
 
   const statusBgColors = {
-    reviewed: "bg-green-100",
-    pending: "bg-yellow-100",
-    new: "bg-blue-100"
+    reviewed: "bg-green-50",
+    pending: "bg-yellow-50",
+    new: "bg-blue-50"
   }
 
   return (
     <div className={`rounded-xl p-6 shadow-lg transition-all hover:shadow-md ${statusBgColors[status]}`}>
       <div className="mb-4 flex justify-between">
         <div>
-          <h3 className="text-xl font-bold text-gray-900">{name}</h3>
+          <div className="flex items-center gap-2">
+            <FileText className="h-5 w-5 text-gray-500" />
+            <h3 className="text-xl font-bold text-gray-900">{name}</h3>
+          </div>
           <div className="mt-1 flex items-center gap-2">
             <span className="text-sm text-gray-500">{type}</span>
             <span className="text-sm text-gray-500">•</span>

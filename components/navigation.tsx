@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Home, ListTodo, FileText, MessageSquare, Receipt } from "lucide-react"
+import { Home, ListTodo, FileText, MessageSquare, Receipt, FileSpreadsheet } from "lucide-react"
 
 interface NavItemProps {
   label: string
@@ -57,6 +57,13 @@ export function Navigation({ activePath }: { activePath: string }) {
           icon={<FileText className="h-4 w-4" />}
           href="/files"
           active={activePath === "/files"}
+        />
+        <NavItem 
+          label="Proposals" 
+          description="Review and manage proposals"
+          icon={<FileSpreadsheet className="h-4 w-4" />}
+          href="/proposals"
+          active={activePath === "/proposals"}
         />
         <NavItem 
           label="Messages" 

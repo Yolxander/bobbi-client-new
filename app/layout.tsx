@@ -5,9 +5,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "LegalBot",
-  description: "Your AI legal assistant",
-    generator: 'v0.dev'
+  title: "Bobbi",
+  description: "Client Dashboard",
+    generator: 'yolxitron'
 }
 
 export default function RootLayout({ children }) {
