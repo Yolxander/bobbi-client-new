@@ -1,0 +1,105 @@
+{
+  "Check Project Status": {
+    "initialMessage": {
+      "type": "bot",
+      "content": "👋 Hi! Would you like a quick update on your project?",
+      "options": [
+        {
+          "label": "Yes, show me",
+          "nextMessage": {
+            "type": "bot",
+            "content": "📊 Project Status Update\n\nCurrent Phase: Design Phase (50% complete)\nNext Milestone: Final Asset Delivery (due in 3 days)\nOverall Progress: On track\n\nWould you like to see more details?",
+            "options": [
+              {
+                "label": "Show task breakdown",
+                "nextMessage": {
+                  "type": "bot",
+                  "content": "📋 Task Breakdown\n\n✅ Completed:\n• Initial Brief Review\n• Project Scope Definition\n• Design System Setup\n\n🔄 In Progress:\n• Logo Concepts (80% complete)\n• Brand Guidelines (60% complete)\n\n⏳ Pending:\n• Homepage Layout\n• Mobile Responsiveness\n• Final Asset Delivery\n\nWould you like to:\n1. Get more details about any task?\n2. See the timeline view?\n3. Check team assignments?",
+                  "options": [
+                    {
+                      "label": "Show timeline view",
+                      "nextMessage": {
+                        "type": "bot",
+                        "content": "📅 Project Timeline\n\nPast:\n• Week 1: Project Kickoff ✅\n• Week 2: Initial Design Concepts ✅\n• Week 3: Brand Development 🔄\n\nCurrent:\n• Week 4: UI/UX Design 🔄\n• Week 5: Asset Creation 🔄\n\nUpcoming:\n• Week 6: Final Delivery ⏳\n• Week 7: Launch Preparation ⏳"
+                      }
+                    },
+                    {
+                      "label": "Check team assignments",
+                      "nextMessage": {
+                        "type": "bot",
+                        "content": "👥 Team Assignments\n\nDesign Team:\n• Sarah (Lead Designer) - Logo Concepts\n• Mike (UI Designer) - Homepage Layout\n\nDevelopment:\n• Alex (Frontend) - Mobile Responsiveness\n• Emma (Backend) - API Integration\n\nWould you like to:\n1. Message any team member?\n2. Schedule a team meeting?\n3. View detailed progress?"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "label": "Show budget status",
+                "nextMessage": {
+                  "type": "bot",
+                  "content": "💰 Budget Overview\n\nTotal Budget: $25,000\nSpent: $12,500 (50%)\nRemaining: $12,500\n\nNext Payment:\n• Amount: $5,000\n• Due: Upon Final Asset Delivery\n• Status: Scheduled"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Review Deliverables": {
+    "initialMessage": {
+      "type": "bot",
+      "content": "📁 Would you like to review the latest deliverables?",
+      "options": [
+        {
+          "label": "Yes, show me",
+          "nextMessage": {
+            "type": "bot",
+            "content": "📦 Latest Deliverables\n\n📄 Website_Design_R1.pdf\n• Type: Design Document\n• Size: 2.4MB\n• Last Updated: 2 hours ago\n\n🖼️ Hero_Image_V2.png\n• Type: Image Asset\n• Size: 1.8MB\n• Last Updated: 1 hour ago\n\n📱 Mobile_Mockups.zip\n• Type: Design Package\n• Size: 4.2MB\n• Last Updated: 3 hours ago\n\nWhat would you like to do with these files?",
+            "options": [
+              {
+                "label": "Preview Website Design",
+                "nextMessage": {
+                  "type": "bot",
+                  "content": "🔍 Previewing Website_Design_R1.pdf\n\nKey Sections:\n• Homepage Layout\n• Navigation Structure\n• Color Scheme\n• Typography Guide\n\nWould you like to:\n1. Leave feedback?\n2. Download the file?\n3. Share with team?",
+                  "options": [
+                    {
+                      "label": "Leave feedback",
+                      "nextMessage": {
+                        "type": "bot",
+                        "content": "💭 What feedback would you like to share about the website design?\n\nYou can:\n• Comment on specific sections\n• Request changes\n• Suggest improvements\n• Mark as urgent\n\nType your feedback below:"
+                      }
+                    },
+                    {
+                      "label": "Download file",
+                      "nextMessage": {
+                        "type": "bot",
+                        "content": "📥 Starting download of Website_Design_R1.pdf..."
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "label": "Preview Hero Image",
+                "nextMessage": {
+                  "type": "bot",
+                  "content": "🖼️ Previewing Hero_Image_V2.png\n\nImage Details:\n• Resolution: 1920x1080\n• Format: PNG\n• Color Profile: sRGB\n\nWould you like to:\n1. Leave feedback?\n2. Download the file?\n3. Request revisions?",
+                  "options": [
+                    {
+                      "label": "Leave feedback",
+                      "nextMessage": {
+                        "type": "bot",
+                        "content": "💭 What feedback would you like to share about the hero image?\n\nYou can:\n• Comment on composition\n• Suggest color adjustments\n• Request size changes\n• Mark as urgent\n\nType your feedback below:"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+} 

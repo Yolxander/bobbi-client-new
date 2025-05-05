@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import { Search, MoreVertical, Plus, AtSign, Mic, Send, Home, ListTodo, FileText, MessageSquare, Receipt } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -5,6 +7,8 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Orbitron } from "next/font/google"
 import { Navigation } from "@/components/navigation"
+import { useState } from "react"
+import chatFlows from './chat-flows.json'
 
 const orbitron = Orbitron({ subsets: ["latin"] })
 
@@ -28,7 +32,143 @@ interface FeatureCardProps {
   icon: React.ReactNode
 }
 
+interface ChatMessage {
+  type: 'bot' | 'user'
+  content: string
+  options?: { label: string; action: () => void }[]
+}
+
+interface MessageBubbleProps {
+  message: ChatMessage
+}
+
+function MessageBubble({ message }: MessageBubbleProps) {
+  return (
+    <div className={`flex ${message.type === 'bot' ? 'justify-start' : 'justify-end'} mb-4`}>
+      <div className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+        message.type === 'bot' 
+          ? 'bg-gray-100 text-gray-900' 
+          : 'bg-black text-white'
+      }`}>
+        <div className="text-sm whitespace-pre-line">{message.content}</div>
+        {message.options && (
+          <div className="mt-2 flex flex-wrap gap-2">
+            {message.options.map((option, index) => (
+              <Button
+                key={index}
+                variant="outline"
+                size="sm"
+                className="rounded-full text-sm font-medium shadow-md hover:bg-gray-50"
+                onClick={option.action}
+              >
+                {option.label}
+              </Button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+interface ChatFlowManagerProps {
+  onMessageUpdate: (messages: ChatMessage[] | ((prev: ChatMessage[]) => ChatMessage[])) => void
+  onChatStateChange: (showChat: boolean) => void
+  showChat: boolean
+}
+
+function ChatFlowManager({ onMessageUpdate, onChatStateChange, showChat }: ChatFlowManagerProps) {
+  const handleOptionClick = (option: string) => {
+    onChatStateChange(true)
+    onMessageUpdate([]) // Clear previous messages
+
+    const flow = chatFlows[option as keyof typeof chatFlows]
+    if (!flow) return
+
+    const processMessage = (message: any, prevMessages: ChatMessage[] = []) => {
+      const newMessage: ChatMessage = {
+        type: message.type,
+        content: message.content,
+        options: message.options?.map((opt: any) => ({
+          label: opt.label,
+          action: () => {
+            onMessageUpdate((prev: ChatMessage[]) => [
+              ...prev,
+              { type: 'user', content: opt.label }
+            ])
+            if (opt.nextMessage) {
+              processMessage(opt.nextMessage, [...prevMessages, newMessage])
+            }
+          }
+        }))
+      }
+      onMessageUpdate((prev: ChatMessage[]) => [...prev, newMessage])
+    }
+
+    processMessage(flow.initialMessage)
+  }
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      <div className={cn(
+        "flex flex-wrap gap-2 transition-all duration-300",
+        showChat ? "opacity-0 h-0 overflow-hidden" : "opacity-100 h-auto"
+      )}>
+        <Button
+          variant="outline"
+          size="sm"
+          className="rounded-full text-sm font-medium shadow-md"
+          onClick={() => handleOptionClick('Check Project Status')}
+        >
+          Check Project Status
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          className="rounded-full text-sm font-medium shadow-md"
+          onClick={() => handleOptionClick('Review Deliverables')}
+        >
+          Review Deliverables
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          className="rounded-full text-sm font-medium shadow-md"
+        >
+          Leave Feedback
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          className="rounded-full text-sm font-medium shadow-md"
+        >
+          Ask a Question
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          className="rounded-full text-sm font-medium shadow-md"
+        >
+          End-of-Project Feedback
+        </Button>
+      </div>
+    </div>
+  )
+}
+
 export default function LegalBotUI() {
+  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const [showChat, setShowChat] = useState(false)
+
+  const handleResetChat = () => {
+    setMessages([])
+    setShowChat(false)
+  }
+
+  const handleEndChat = () => {
+    setShowChat(false)
+  }
+
   return (
     <div className="flex h-screen w-full overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-lg">
       {/* Left Sidebar */}
@@ -106,81 +246,84 @@ export default function LegalBotUI() {
 
         {/* Main Content Area */}
         <div className="flex-1 overflow-y-auto bg-white p-6">
-          <h1 className="mb-8 text-center text-3xl font-bold text-gray-900">Project Progress Overview</h1>
-
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <FeatureCard
-              title="Current Progress"
-              description="3 projects in progress, 2 completed this month. Overall completion rate: 85%. Next milestone: Contract Review due in 2 days."
-              color="bg-blue-50"
-              icon={<ProjectProgressIcon />}
-            />
-            <FeatureCard
-              title="Timeline Status"
-              description="All projects on schedule. Upcoming deadline: Patent Application Review (Dec 15). Recent milestone: Trademark Registration completed."
-              color="bg-orange-50"
-              icon={<TimelineIcon />}
-            />
-            <FeatureCard
-              title="Budget Overview"
-              description="Total budget utilized: 65%. Cost savings achieved: 12%. Next payment milestone: $2,500 due upon trademark approval."
-              color="bg-green-50"
-              icon={<BudgetIcon />}
-            />
-            <FeatureCard
-              title="Team Collaboration"
-              description="5 active freelancers. Recent updates from: Patent Attorney (2h ago), Legal Researcher (5h ago). 3 pending reviews."
-              color="bg-purple-50"
-              icon={<TeamIcon />}
-            />
-          </div>
+          {!showChat ? (
+            <>
+              <h1 className="mb-8 text-center text-3xl font-bold text-gray-900">Project Progress Overview</h1>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <FeatureCard
+                  title="Current Progress"
+                  description="3 projects in progress, 2 completed this month. Overall completion rate: 85%. Next milestone: Contract Review due in 2 days."
+                  color="bg-blue-50"
+                  icon={<ProjectProgressIcon />}
+                />
+                <FeatureCard
+                  title="Timeline Status"
+                  description="All projects on schedule. Upcoming deadline: Patent Application Review (Dec 15). Recent milestone: Trademark Registration completed."
+                  color="bg-orange-50"
+                  icon={<TimelineIcon />}
+                />
+                <FeatureCard
+                  title="Budget Overview"
+                  description="Total budget utilized: 65%. Cost savings achieved: 12%. Next payment milestone: $2,500 due upon trademark approval."
+                  color="bg-green-50"
+                  icon={<BudgetIcon />}
+                />
+                <FeatureCard
+                  title="Team Collaboration"
+                  description="5 active freelancers. Recent updates from: Patent Attorney (2h ago), Legal Researcher (5h ago). 3 pending reviews."
+                  color="bg-purple-50"
+                  icon={<TeamIcon />}
+                />
+              </div>
+            </>
+          ) : (
+            <div className="flex h-full flex-col">
+              <div className="flex-1 space-y-4 overflow-y-auto">
+                {messages.map((message, index) => (
+                  <MessageBubble key={index} message={message} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Option Pills */}
         <div className="flex flex-wrap gap-2 px-4 pb-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="rounded-full text-sm font-medium shadow-md"
-          >
-            Check Project Status
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="rounded-full text-sm font-medium shadow-md"
-          >
-            Review Deliverables
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="rounded-full text-sm font-medium shadow-md"
-          >
-            Leave Feedback
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="rounded-full text-sm font-medium shadow-md"
-          >
-            Ask a Question
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="rounded-full text-sm font-medium shadow-md"
-          >
-            End-of-Project Feedback
-          </Button>
+          <ChatFlowManager 
+            onMessageUpdate={setMessages}
+            onChatStateChange={setShowChat}
+            showChat={showChat}
+          />
+          
+          <div className={cn(
+            "flex flex-wrap gap-2 transition-all duration-300",
+            showChat ? "opacity-100 h-auto" : "opacity-0 h-0 overflow-hidden"
+          )}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full text-sm font-medium shadow-md hover:bg-gray-50"
+              onClick={handleResetChat}
+            >
+              Reset Chat
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full text-sm font-medium shadow-md hover:bg-gray-50"
+              onClick={handleEndChat}
+            >
+              End Chat
+            </Button>
+          </div>
         </div>
 
         {/* Chat Input */}
-        <div className=" bg-white p-4 ">
+        <div className="bg-white p-4">
           <div className="flex items-center rounded-full border border-gray-200 bg-white px-4 py-2 shadow-lg transition-shadow focus-within:shadow-md">
             <input 
               type="text" 
-              placeholder="Ask LegalBot anything ..." 
+              placeholder="Type your message..." 
               className="flex-1 bg-transparent text-sm font-medium text-gray-700 placeholder-gray-500 outline-none" 
             />
             <div className="flex items-center gap-2">
