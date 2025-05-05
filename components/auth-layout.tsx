@@ -8,12 +8,12 @@ const TABS = [
   {
     label: 'Tracking',
     description:
-      'Clients can track project progress, timelines, and deliverables in real-time.',
+      'Stay in control of your projects with real-time tracking of progress, timelines, and deliverables. Instantly see what\'s completed, what\'s in progress, and what\'s coming up next. This transparency helps you plan ahead and ensures your project stays on schedule.',
   },
   {
     label: 'Transparency',
     description:
-      'Access to invoices, contracts, and status updates fosters trust and reduces misunderstandings.',
+      'Access all your invoices, contracts, and project status updates in one place. Clear documentation and regular updates foster trust and reduce misunderstandings, so you always know where your project stands. Bobbi makes it easy to keep everyone on the same page and avoid surprises.',
   },
 ];
 
@@ -54,7 +54,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               <span className={`px-3 py-1 rounded-full border border-gray-300 bg-white text-gray-700 text-xs ${activeTab === 0 ? '' : 'opacity-50'}`}>Tracking</span>
               <span className={`px-3 py-1 rounded-full border border-gray-300 bg-white text-gray-700 text-xs ${activeTab === 1 ? '' : 'opacity-50'}`}>Transparency</span>
             </div>
-            <div className="text-xs text-gray-700 text-center min-h-[40px]">
+            <div className="text-md text-gray-700 text-center min-h-[40px]">
               {TABS[activeTab].description}
             </div>
             <div className="flex gap-2 mt-2">
