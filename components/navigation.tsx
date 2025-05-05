@@ -77,13 +77,6 @@ export function Navigation({ activePath }: { activePath: string }) {
           active={activePath === "/proposals"}
         />
         <NavItem 
-          label="Messages" 
-          description="Ask questions or reply to updates"
-          icon={<MessageSquare className="h-4 w-4" />}
-          href="/messages"
-          active={activePath === "/messages"}
-        />
-        <NavItem 
           label="Invoices" 
           description="View/download/pay"
           icon={<Receipt className="h-4 w-4" />}
