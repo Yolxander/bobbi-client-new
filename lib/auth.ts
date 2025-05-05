@@ -9,6 +9,8 @@ export interface LoginCredentials {
 
 export interface RegisterData extends LoginCredentials {
   name: string;
+  password: string;
+  password_confirmation: string;
 }
 
 export interface AuthResponse {
@@ -22,7 +24,7 @@ export interface AuthResponse {
 
 export const authService = {
   async getCsrfToken() {
-    await axios.get(`${API_URL}/sanctum/csrf-cookie`, {
+    await axios.get(`http://localhost:8000/sanctum/csrf-cookie`, {
       withCredentials: true,
     });
   },
