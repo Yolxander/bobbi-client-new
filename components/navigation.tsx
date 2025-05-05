@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import { useAuth } from "@/lib/auth-context"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Home, ListTodo, FileText, MessageSquare, Receipt, FileSpreadsheet, User, LogOut } from "lucide-react"
@@ -44,6 +44,7 @@ function NavItem({ label, description, icon, href, active = false }: NavItemProp
 
 export function Navigation({ activePath }: { activePath: string }) {
   const router = useRouter()
+  const { logout } = useAuth();
 
   return (
     <div className="flex items-center justify-between border-b border-gray-100 bg-white px-6 py-3 shadow-sm">
@@ -87,22 +88,16 @@ export function Navigation({ activePath }: { activePath: string }) {
       <div className="ml-6">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className="h-10 w-10 cursor-pointer overflow-hidden rounded-full border border-gray-200 shadow-sm transition-transform hover:scale-105">
-              <Image
-                src="/placeholder.svg?height=40&width=40"
-                alt="Profile"
-                width={40}
-                height={40}
-                className="h-full w-full object-cover"
-              />
+            <div className="h-10 w-10 cursor-pointer overflow-hidden rounded-full border border-gray-200 shadow-sm transition-transform hover:scale-105 flex items-center justify-center bg-gray-50">
+              <User className="h-7 w-7 text-gray-400" />
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => router.push("/profile")}>
+            <DropdownMenuItem onClick={() => router.push("/profile")}> 
               <User className="mr-2 h-4 w-4" />
               <span>Go to Account</span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={logout}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log Out</span>
             </DropdownMenuItem>

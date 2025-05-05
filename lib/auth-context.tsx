@@ -59,10 +59,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     try {
       await authService.logout();
+    } catch (error: any) {
+      // If 401, treat as already logged out
+      if (error?.response?.status !== 401) {
+        throw error;
+      }
+    } finally {
       setUser(null);
       router.push('/login');
-    } catch (error) {
-      throw error;
     }
   };
 
